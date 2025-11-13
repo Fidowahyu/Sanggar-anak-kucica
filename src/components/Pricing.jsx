@@ -17,7 +17,7 @@ return (
         <div className="mt-10 grid md:grid-cols-3 gap-6">
         {packages.map((p, i) => (
             <div key={i} data-aos="fade-up" data-aos-delay={i * 100}
-                className={`p-6 rounded-2xl ring-1 shadow-sm ${p.highlight ? 'bg-sky-50 ring-sky-200' : 'bg-white ring-slate-200'}`}>
+                className={`p-6 rounded-2xl ring-1 shadow-sm ${p.highlight ? 'bg-sky-50 ring-sky-200' : 'card-gradient ring-slate-200/40'}`}>
             <div className="flex items-center justify-between">
                 <h3 className="text-xl font-extrabold text-slate-800">{p.name}</h3>
                 {p.highlight && <span className="text-xs font-bold text-sky-700 bg-sky-100 rounded-full px-2 py-1">Rekomendasi</span>}
@@ -26,7 +26,7 @@ return (
             <ul className="mt-4 text-sm text-slate-600 space-y-2 list-disc pl-5">
                 {p.features.map((f, idx) => <li key={idx}>{f}</li>)}
             </ul>
-            <a href="#kontak" className="mt-5 inline-block rounded-full bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-4 py-2 transition">
+            <a href="#kontak" className="mt-5 inline-block btn-cta">
                 Daftar Paket {p.name}
             </a>
             </div>

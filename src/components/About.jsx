@@ -2,10 +2,18 @@ import React from 'react';
 
 export default function About() {
   return (
-    <section id="tentang-kami" className="py-24 sm:py-32 bg-gradient-to-b from-white via-amber-50/30 to-white">
+  <section id="tentang" className="py-24 sm:py-32" style={{scrollMarginTop: '80px', background:'linear-gradient(180deg, rgba(59,130,246,0.04), rgba(255,210,63,0.03) 40%, rgba(59,130,246,0.02) 100%)'}}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl" data-aos="fade-up">
-          <h2 className="text-4xl sm:text-5xl font-black bg-gradient-to-r from-slate-800 to-slate-600 bg-clip-text text-transparent">Tentang Kami</h2>
+          <div className="flex items-center gap-3">
+            <div className="mascot-sm" aria-hidden>
+              <svg width="28" height="28" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="32" cy="32" r="30" fill="#fff7e6" />
+                <path d="M20 36c4-6 20-6 24 0" stroke="#1f2937" strokeWidth="2" strokeLinecap="round"/>
+              </svg>
+            </div>
+            <h2 className="text-4xl sm:text-5xl font-black bg-clip-text text-transparent" style={{background:'linear-gradient(90deg,var(--kucica-blue), var(--kucica-yellow))'}}>Tentang Kami</h2>
+          </div>
           <p className="mt-4 text-lg text-slate-600 leading-relaxed">
             PAUD anak kucica berkomitmen menghadirkan lingkungan belajar yang hangat, aman, dan menyenangkan. Kami percaya setiap anak unik dan belajar terbaik melalui permainan yang bermakna.
           </p>
@@ -38,7 +46,7 @@ export default function About() {
             <h3 className="text-2xl font-black text-emerald-700">Profil Guru</h3>
             <div className="mt-6 grid sm:grid-cols-3 gap-6">
               {['Bu Sari', 'Pak Budi', 'Bu Ani'].map((name, i) => (
-                <div key={i} className="hover-lift p-5 rounded-2xl bg-white ring-1 ring-slate-200 text-center shadow-lg">
+                <div key={i} className="hover-lift p-5 rounded-2xl card-gradient ring-1 ring-slate-200/40 text-center shadow-lg">
                   <img className="w-20 h-20 rounded-2xl mx-auto object-cover ring-2 ring-emerald-200"
                        src="https://images.unsplash.com/photo-1531123414780-f7424c22d9c0?q=80&w=400&auto=format&fit=crop"
                        alt={name} />

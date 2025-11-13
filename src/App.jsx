@@ -15,7 +15,7 @@ export default function App() {
   useInjectStyles();
 
   return (
-    <div className="bg-white text-slate-700 overflow-x-hidden">
+  <div className="min-h-screen overflow-x-hidden text-slate-900" style={{paddingTop: '72px', background: 'linear-gradient(180deg, rgba(59,130,246,0.14) 0%, rgba(255,210,63,0.12) 40%, rgba(59,130,246,0.06) 100%)'}}>
       <Header />
       <Hero />
       <About />

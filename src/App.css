@@ -1,8 +1,9 @@
 #root {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 2.5rem;
   text-align: center;
+  color: #09204a;
 }
 
 .logo {
@@ -34,7 +35,24 @@
 }
 
 .card {
-  padding: 2em;
+  padding: 1.25em;
+}
+
+/* card gradient used across components to avoid white backgrounds */
+.card-gradient {
+  background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(255,210,63,0.10));
+  border: 1px solid rgba(255,255,255,0.06);
+  backdrop-filter: blur(4px);
+}
+
+.sticker {
+  background: linear-gradient(180deg,#fffef8 0%, #fff6d6 100%);
+  color: #1f2937;
+}
+
+.badge {
+  background: linear-gradient(90deg, rgba(255,210,63,0.18), rgba(59,130,246,0.06));
+  color: #06202a;
 }
 
 .read-the-docs {

@@ -11,7 +11,7 @@ const images = [
 ];
 
 return (
-    <section id="galeri" className="py-16 sm:py-20 bg-gradient-to-b from-white via-amber-50/40 to-white">
+    <section id="galeri" className="py-16 sm:py-20" style={{background:'linear-gradient(180deg, rgba(59,130,246,0.04), rgba(255,210,63,0.03) 40%, rgba(59,130,246,0.02) 100%)'}}>
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl" data-aos="fade-up">
         <h2 className="text-3xl font-extrabold text-slate-800">Galeri Kegiatan</h2>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export default function FAQ() {
 const faqs = [
@@ -7,6 +7,8 @@ const faqs = [
     { q: 'Bagaimana sistem pembayaran?', a: 'Bulanan via transfer atau tunai di administrasi sekolah.' },
     { q: 'Apakah orang tua boleh mendampingi?', a: 'Pada masa adaptasi, orang tua dapat mendampingi sesuai arahan guru.' },
 ];
+
+    const [open, setOpen] = useState(null);
 
 return (
     <section id="faq" className="py-16 sm:py-20">
@@ -17,15 +19,28 @@ return (
         </div>
 
         <div className="mt-8 grid gap-3 max-w-3xl" data-aos="fade-up" data-aos-delay="100">
-        {faqs.map((item, i) => (
-            <details key={i} className="group rounded-xl bg-white ring-1 ring-slate-200 p-4 open:ring-sky-200">
-            <summary className="flex cursor-pointer items-center justify-between font-semibold text-slate-800">
-                {item.q}
-                <span className="ml-2 text-slate-400 group-open:rotate-180 transition-transform">⌄</span>
-            </summary>
-            <p className="mt-2 text-slate-600">{item.a}</p>
-            </details>
-        ))}
+        {faqs.map((item, i) => {
+                    const isOpen = open === i;
+                    return (
+                    <div key={i} className={`rounded-xl card-gradient ring-1 ring-slate-200/40 p-4 ${isOpen ? 'shadow-xl' : ''}`}>
+                        <button
+                        type="button"
+                        aria-expanded={isOpen}
+                        onClick={() => setOpen(isOpen ? null : i)}
+                        className="w-full flex items-center justify-between font-semibold text-slate-800 cursor-pointer"
+                        >
+                        <span>{item.q}</span>
+                        <span className={`ml-2 text-slate-400 transform transition-transform ${isOpen ? 'rotate-180' : ''}`}>⌄</span>
+                        </button>
+
+                        <div className={`mt-2 text-slate-600 overflow-hidden transition-[max-height] duration-300 ${isOpen ? 'max-h-40' : 'max-h-0'}`}>
+                        <div className="pt-2">
+                            {item.a}
+                        </div>
+                        </div>
+                    </div>
+                    )
+                })}
         </div>
     </div>
     </section>

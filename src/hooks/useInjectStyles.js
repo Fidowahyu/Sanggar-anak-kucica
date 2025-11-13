@@ -51,10 +51,11 @@ export default function useInjectStyles() {
         }
 
         .glass {
-          background: rgba(255, 255, 255, 0.7);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.3);
+          /* gentle translucent glass but tinted to the kucica theme */
+          background: linear-gradient(180deg, rgba(59,130,246,0.06), rgba(255,210,63,0.03));
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255,255,255,0.06);
         }
 
         * { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -66,7 +67,11 @@ export default function useInjectStyles() {
 
         .card-gradient {
           position: relative;
-          background: white;
+          /* subtle blue-yellow background instead of white */
+          background: linear-gradient(135deg, rgba(59,130,246,0.12), rgba(255,210,63,0.08));
+          border-radius: inherit;
+          box-shadow: 0 10px 30px rgba(2,6,23,0.06);
+          overflow: hidden;
         }
         .card-gradient::before {
           content: '';
@@ -74,16 +79,14 @@ export default function useInjectStyles() {
           inset: 0;
           border-radius: inherit;
           padding: 2px;
-          background: linear-gradient(135deg, #0ea5e9, #22c55e, #f59e0b);
+          background: linear-gradient(135deg, rgba(59,130,246,0.6), rgba(255,210,63,0.6));
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: xor;
           mask-composite: exclude;
           opacity: 0;
           transition: opacity 0.3s;
         }
-        .card-gradient:hover::before {
-          opacity: 0.6;
-        }
+        .card-gradient:hover::before { opacity: 0.2; }
 
         body:not(.aos-initialized) [data-aos] { opacity: 1 !important; transform: none !important; }
       `;

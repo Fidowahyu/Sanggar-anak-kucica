@@ -19,11 +19,11 @@ return (
         <div className="mt-16 grid sm:grid-cols-2 gap-8">
         {programs.map((program, i) => (
             <div key={i} data-aos="fade-up" data-aos-delay={i * 100} 
-                className="group card-gradient hover-lift p-8 rounded-3xl bg-white ring-1 ring-slate-200/80 shadow-xl relative overflow-hidden">
+                className="group hover-lift p-8 rounded-3xl card-gradient ring-1 ring-slate-200/80 shadow-xl relative overflow-hidden">
             <div className={`absolute inset-0 bg-gradient-to-br ${program.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
             <h3 className="text-2xl font-black text-slate-800 relative z-10">{program.title}</h3>
             <p className="mt-4 text-slate-600 leading-relaxed relative z-10">{program.desc}</p>
-            <a href="#kontak" className={`mt-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r ${program.gradient} text-white font-bold px-6 py-3 shadow-lg hover:shadow-xl hover:scale-105 relative z-10`}>
+            <a href="#kontak" className={`mt-6 inline-flex items-center gap-2 btn-cta relative z-10`}>
                 Daftar Sekarang →
             </a>
             </div>
