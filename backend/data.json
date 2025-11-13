@@ -1,0 +1,73 @@
+{
+  "programs": [
+    {
+      "id": 1,
+      "name": "Playgroup",
+      "description": "Program untuk anak usia 2-4 tahun"
+    },
+    {
+      "id": 2,
+      "name": "TK A",
+      "description": "Program untuk anak usia 4-5 tahun"
+    },
+    {
+      "id": 3,
+      "name": "TK B",
+      "description": "Program untuk anak usia 5-6 tahun"
+    },
+    {
+      "id": 4,
+      "name": "Kelas Seni dan Kreativitas",
+      "description": "Ekstrakurikuler seni dan kreativitas"
+    }
+  ],
+  "facilities": [
+    {
+      "id": 1,
+      "title": "Ruang Kelas Nyaman",
+      "description": "Ventilasi baik, pencahayaan alami"
+    },
+    {
+      "id": 2,
+      "title": "Area Bermain Aman",
+      "description": "Outdoor dan indoor dengan standar keselamatan"
+    },
+    {
+      "id": 3,
+      "title": "Perpustakaan Mini",
+      "description": "Koleksi buku cerita anak dan edukasi"
+    }
+  ],
+  "registrations": [
+    {
+      "id": 1763023934912,
+      "name": "Dimas",
+      "parent_name": "Untung",
+      "phone": "08129699999",
+      "email": "dimas@gmail.com",
+      "program": "Playgroup",
+      "note": "",
+      "created_at": "2025-11-13T08:52:14.912Z"
+    },
+    {
+      "id": 1763024141912,
+      "name": "rafi",
+      "parent_name": "untung",
+      "phone": "081288888",
+      "email": "ananda@gmail.com",
+      "program": "TK A",
+      "note": "abc",
+      "created_at": "2025-11-13T08:55:41.912Z"
+    },
+    {
+      "id": 1763024345307,
+      "name": "tes",
+      "parent_name": "tes",
+      "phone": "08129393939",
+      "email": "tes@gmail.com",
+      "program": "TK B",
+      "note": "",
+      "created_at": "2025-11-13T08:59:05.307Z"
+    }
+  ]
+}

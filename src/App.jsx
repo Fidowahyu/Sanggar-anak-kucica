@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import logo from './assets/Logopaudkucica.png';
 
 // Configuration for contact & map (replace number with actual if available)
@@ -124,6 +124,95 @@ export default function App() {
     }
   }, []);
 
+  // Frontend state: programs + registration form
+  const [programs, setPrograms] = useState([]);
+  const [form, setForm] = useState({ name: '', parent_name: '', phone: '', email: '', program: '', note: '' });
+  const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState(null); // null | 'ok' | 'error'
+  const formRef = useRef(null);
+
+  // Toasts
+  const [toasts, setToasts] = useState([]);
+  function addToast(message, type = 'info') {
+    const id = Date.now();
+    setToasts((t) => [...t, { id, message, type }]);
+    setTimeout(() => removeToast(id), 4000);
+  }
+  function removeToast(id) {
+    setToasts((t) => t.filter((x) => x.id !== id));
+  }
+
+  useEffect(() => {
+    let mounted = true;
+    fetch('/api/programs')
+      .then((r) => r.json())
+      .then((j) => {
+        if (!mounted) return;
+        if (j && j.ok && Array.isArray(j.data)) {
+          setPrograms(j.data);
+        }
+      })
+      .catch(() => {
+        // ignore — frontend can still work with static programs
+      });
+    return () => { mounted = false; };
+  }, []);
+
+  function setField(key, value) {
+    setForm((s) => ({ ...s, [key]: value }));
+  }
+
+  async function submitRegistration(e) {
+    e && e.preventDefault && e.preventDefault();
+    setStatus(null);
+    if (!form.name || !form.phone) {
+      setStatus('error');
+      return;
+    }
+    setLoading(true);
+    try {
+      const res = await fetch('/api/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      const j = await res.json();
+      if (j && j.ok) {
+        setStatus('ok');
+        setForm({ name: '', parent_name: '', phone: '', email: '', program: '', note: '' });
+        addToast('Pendaftaran terkirim. Kami akan menghubungi Anda.', 'success');
+      } else {
+        setStatus('error');
+        addToast('Gagal mengirim pendaftaran. Coba lagi.', 'error');
+      }
+    } catch (err) {
+      setStatus('error');
+      addToast('Terjadi kesalahan saat mengirim. Periksa koneksi.', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function prefillAndScroll(programName) {
+    setForm((s) => ({ ...s, program: programName }));
+    setStatus(null);
+    // small delay to ensure element exists / layout
+    setTimeout(() => {
+      try {
+        if (formRef.current) {
+          formRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          const first = formRef.current.querySelector('input, textarea, select, button');
+          if (first) first.focus();
+        } else {
+          const el = document.getElementById('kontak');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      } catch (e) {
+        // ignore
+      }
+    }, 120);
+  }
+
   // Attempt to open WhatsApp app first (scheme), then fallback to web link
   const openWhatsApp = (e) => {
     if (e && e.preventDefault) e.preventDefault();
@@ -156,6 +245,14 @@ export default function App() {
 
   return (
     <div className="bg-white text-slate-700 overflow-x-hidden">
+      {/* Toast container */}
+      <div className="fixed top-6 right-6 z-50 flex flex-col gap-3">
+        {toasts.map((t) => (
+          <div key={t.id} className={`max-w-sm px-4 py-2 rounded-lg shadow-lg text-sm text-white ${t.type === 'error' ? 'bg-rose-500' : t.type === 'success' ? 'bg-emerald-500' : 'bg-slate-700'}`}>
+            {t.message}
+          </div>
+        ))}
+      </div>
       {/* Header - Enhanced with glassmorphism */}
       <header className="sticky top-0 z-50 glass shadow-lg shadow-slate-200/50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
@@ -386,9 +483,9 @@ export default function App() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${program.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
                 <h3 className="text-2xl font-black text-slate-800 relative z-10">{program.title}</h3>
                 <p className="mt-4 text-slate-600 leading-relaxed relative z-10">{program.desc}</p>
-                <a href="#kontak" className={`mt-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r ${program.gradient} text-white font-bold px-6 py-3 shadow-lg hover:shadow-xl hover:scale-105 relative z-10`}>
+                <button type="button" onClick={() => prefillAndScroll(program.title)} className={`mt-6 inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r ${program.gradient} text-white font-bold px-6 py-3 shadow-lg hover:shadow-xl hover:scale-105 relative z-10`}>
                   Daftar Sekarang →
-                </a>
+                </button>
               </div>
             ))}
           </div>
@@ -550,7 +647,45 @@ export default function App() {
                 </div>
               </div>
 
-              <div className="mt-2 flex flex-wrap gap-3">
+                  {/* Simple registration form integrated with backend */}
+                  <div className="mt-4" ref={formRef} id="registration-form">
+                    <form onSubmit={submitRegistration} className="grid gap-3">
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        <input value={form.name} onChange={(e) => setField('name', e.target.value)} placeholder="Nama Anak*" className="w-full rounded-lg border px-3 py-2 text-sm" />
+                        <input value={form.parent_name} onChange={(e) => setField('parent_name', e.target.value)} placeholder="Nama Orang Tua" className="w-full rounded-lg border px-3 py-2 text-sm" />
+                      </div>
+
+                      <div className="grid sm:grid-cols-2 gap-3">
+                        <input value={form.phone} onChange={(e) => setField('phone', e.target.value)} placeholder="No. HP*" className="w-full rounded-lg border px-3 py-2 text-sm" />
+                        <input value={form.email} onChange={(e) => setField('email', e.target.value)} placeholder="Email (opsional)" className="w-full rounded-lg border px-3 py-2 text-sm" />
+                      </div>
+
+                      <select value={form.program} onChange={(e) => setField('program', e.target.value)} className="w-full rounded-lg border px-3 py-2 text-sm">
+                        <option value="">Pilih Program (opsional)</option>
+                        {programs && programs.length ? programs.map((p) => (
+                          <option key={p.id} value={p.name}>{p.name}</option>
+                        )) : (
+                          <>
+                            <option value="Playgroup">Playgroup</option>
+                            <option value="TK A">TK A</option>
+                            <option value="TK B">TK B</option>
+                          </>
+                        )}
+                      </select>
+
+                      <textarea value={form.note} onChange={(e) => setField('note', e.target.value)} placeholder="Catatan / pesan (opsional)" className="w-full rounded-lg border px-3 py-2 text-sm" rows={3} />
+
+                      <div className="flex items-center gap-3">
+                        <button type="submit" disabled={loading} className="inline-flex items-center gap-2 rounded-2xl bg-emerald-500 text-white font-bold px-5 py-3 shadow-lg hover:opacity-95">
+                          {loading ? 'Mengirim...' : 'Kirim Pendaftaran'}
+                        </button>
+                        {status === 'ok' && <div className="text-sm text-emerald-600">Pendaftaran terkirim. Kami akan menghubungi Anda.</div>}
+                        {status === 'error' && <div className="text-sm text-rose-600">Terjadi kesalahan. Periksa data dan coba lagi.</div>}
+                      </div>
+                    </form>
+                  </div>
+
+                  <div className="mt-2 flex flex-wrap gap-3">
                 <button onClick={openWhatsApp} className="flex-1 inline-flex items-center justify-center gap-3 rounded-2xl bg-emerald-500 text-white font-bold px-5 py-3 shadow-lg hover:scale-105" aria-label="Chat via WhatsApp">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.52 3.48A11.88 11.88 0 0 0 12 0C5.373 0 .01 5.373.01 12.001c0 2.116.553 4.183 1.6 6.004L0 24l6.296-1.6A11.933 11.933 0 0 0 12 24c6.627 0 12-5.373 12-12 0-3.187-1.246-6.185-3.48-8.52zM12 21.5c-1.06 0-2.096-.216-3.058-.64l-.218-.09-3.745.953.99-3.64-.13-.233A9.38 9.38 0 0 1 2.5 12.001C2.5 6.753 6.753 2.5 12 2.5S21.5 6.753 21.5 12 17.247 21.5 12 21.5z"/><path d="M17.56 14.4c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15s-.73.94-.9 1.13c-.16.2-.32.22-.59.07-.27-.15-1.13-.42-2.15-1.33-.8-.71-1.34-1.58-1.5-1.85-.16-.27-.02-.42.12-.57.12-.12.27-.32.4-.48.13-.16.17-.27.26-.44.09-.16.04-.32-.02-.46-.06-.12-.64-1.54-.88-2.11-.23-.55-.47-.48-.64-.49l-.55-.01c-.18 0-.46.06-.7.32-.24.26-.93.91-.93 2.22 0 1.31.95 2.58 1.08 2.76.13.18 1.87 2.86 4.53 3.9 2.66 1.04 2.66.69 3.14.65.48-.04 1.56-.63 1.78-1.24.22-.61.22-1.13.15-1.24-.07-.11-.26-.18-.55-.33z"/></svg>
                   Chat via WhatsApp
