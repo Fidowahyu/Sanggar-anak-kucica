@@ -1,107 +1,161 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 export default function Hero() {
   return (
-    <section id="beranda" className="relative isolate overflow-hidden min-h-screen flex items-center" style={{background:'linear-gradient(180deg, rgba(59,130,246,0.06), rgba(255,210,63,0.04) 30%, rgba(59,130,246,0.03))'}}>
-      <div aria-hidden="true" className="pointer-events-none absolute inset-0 -z-10">
-        <div className="blob a" />
-        <div className="blob b" />
-        <div className="blob c" />
+    <section id="beranda" className="relative isolate overflow-hidden min-h-screen flex items-center bg-gradient-to-b from-blue-50/40 via-indigo-50/30 to-purple-50/30">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-20 left-[10%] text-6xl opacity-10 animate-float">🎈</div>
+        <div className="absolute top-40 right-[15%] text-5xl opacity-8 animate-float" style={{ animationDelay: '0.5s' }}>🌈</div>
+        <div className="absolute bottom-32 left-[20%] text-7xl opacity-8 animate-float" style={{ animationDelay: '1s' }}>🎨</div>
+        <div className="absolute top-[60%] right-[10%] text-5xl opacity-10 animate-float" style={{ animationDelay: '1.5s' }}>⭐</div>
+        <div className="absolute bottom-20 right-[25%] text-6xl opacity-8 animate-float" style={{ animationDelay: '2s' }}>🎵</div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid md:grid-cols-2 gap-12 items-center">
-        {/* Left column - playful intro */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-28 grid md:grid-cols-2 gap-12 items-center relative z-10">
+        {/* Left column */}
         <div className="md:col-span-1" data-aos="fade-up">
-          <div className="relative z-10">
-            <div className="inline-flex items-center gap-3 pill-nav badge-yellow shadow-md">
-              <span className="text-2xl">�</span>
-              <span className="font-semibold">PAUD Ceria & Aman</span>
+          <div className="relative">
+            {/* Badge */}
+            <div className="inline-flex items-center gap-2 px-5 py-2.5 bg-gradient-to-r from-amber-100 to-yellow-100 rounded-full shadow-md border-2 border-amber-200/50">
+              <span className="text-2xl">🏆</span>
+              <span className="font-bold text-slate-700">PAUD Ceria & Aman</span>
             </div>
 
-            <div className="flex items-start gap-5 mt-6">
-              <div className="mascot mascot-bob" aria-hidden style={{width:140, height:140}}>
-                <svg width="110" height="110" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="32" cy="32" r="30" fill="#fff7e6" />
-                  <circle cx="24" cy="26" r="4" fill="#1f2937" />
-                  <circle cx="40" cy="26" r="4" fill="#1f2937" />
-                  <path d="M22 38c3 4 10 6 20 0" stroke="#1f2937" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
+            {/* Main Title */}
+            <h1 className="mt-6 text-5xl sm:text-6xl md:text-7xl font-black leading-tight text-slate-800">
+              <span className="block">PAUD</span>
+              <span className="block bg-gradient-to-r from-purple-600 via-pink-500 to-blue-500 bg-clip-text text-transparent">
+                Anak Kucica
+              </span>
+            </h1>
 
-              <div>
-                <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight" style={{lineHeight:1}}>
-                  <span style={{background:'linear-gradient(90deg,var(--kucica-yellow), var(--kucica-blue))', WebkitBackgroundClip:'text', color:'transparent', display:'inline-block'}}>PAUD Anak Kucica</span>
-                </h1>
-                <p className="mt-2 text-lg sm:text-xl font-semibold text-slate-700">Belajar, Bermain, & Tumbuh Bersama</p>
-                <p className="mt-3 text-base text-slate-600">Tempat yang hangat untuk si kecil — penuh warna, lagu, dan permainan.</p>
+            <p className="mt-4 text-xl sm:text-2xl font-bold text-slate-700">
+              Belajar, Bermain, & Tumbuh Bersama
+            </p>
+            
+            <p className="mt-3 text-lg text-slate-600 max-w-lg">
+              Tempat yang hangat untuk si kecil — penuh warna, lagu, dan permainan edukatif yang menyenangkan.
+            </p>
 
-                <div className="mt-6 flex items-center gap-3">
-                  <a href="#program" className="btn-cta py-3 px-5 text-lg">Lihat Program</a>
-                  <Link
-                    to="/daftar"
-                    className="inline-block px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
-                  >
-                    Daftar Sekarang
-                  </Link>
+            {/* CTA Buttons */}
+            <div className="mt-8 flex flex-wrap items-center gap-4">
+              <a 
+                href="#program" 
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300 border-2 border-purple-200"
+              >
+                <span>Lihat Program</span>
+                <span className="text-xl">📚</span>
+              </a>
+              <Link
+                to="/daftar"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all duration-300"
+              >
+                <span>Daftar Sekarang</span>
+                <span className="text-xl">✨</span>
+              </Link>
+            </div>
+
+            {/* Features */}
+            <div className="mt-10 grid grid-cols-3 gap-3">
+              {[
+                { icon: '🎨', label: 'Seni & Kriya', color: 'from-pink-200 to-rose-200' },
+                { icon: '🎵', label: 'Musik', color: 'from-cyan-200 to-blue-200' },
+                { icon: '🤸', label: 'Gerak Aktif', color: 'from-amber-200 to-yellow-200' }
+              ].map((item, i) => (
+                <div 
+                  key={i} 
+                  className="bg-white rounded-2xl p-4 shadow-md hover:shadow-lg transition-all duration-300 text-center"
+                  data-aos="zoom-in"
+                  data-aos-delay={i * 100}
+                >
+                  <div className={`w-14 h-14 mx-auto rounded-xl bg-gradient-to-br ${item.color} flex items-center justify-center text-2xl shadow-sm`}>
+                    {item.icon}
+                  </div>
+                  <div className="mt-2 text-sm font-bold text-slate-700">{item.label}</div>
                 </div>
+              ))}
+            </div>
 
-                <div className="mt-6 grid grid-cols-3 gap-3">
-                  {[
-                    {e:'�',t:'Kriya'},
-                    {e:'🎵',t:'Musik'},
-                    {e:'🤸',t:'Gerak'}
-                  ].map((it,i)=> (
-                    <div key={i} className="card-gradient flex flex-col items-center justify-center gap-2 rounded-2xl px-3 py-4 shadow-sm text-center">
-                      <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl" style={{background:'linear-gradient(90deg,var(--kucica-yellow),#FFD77A)'}}>{it.e}</div>
-                      <div className="text-sm font-semibold">{it.t}</div>
+            {/* Testimonial */}
+            <div className="mt-8" data-aos="fade-up" data-aos-delay="200">
+              <div className="bg-white rounded-2xl p-5 shadow-lg border-2 border-purple-100">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-200 to-pink-200 flex items-center justify-center text-2xl flex-shrink-0">
+                    👩‍👧
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-bold text-slate-800">Ibu Sinta</div>
+                    <div className="text-sm text-slate-600 mt-1">
+                      "Anak saya jadi berani berekspresi. Gurunya sabar dan penuh kasih sayang! ⭐⭐⭐⭐⭐"
                     </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-8">
-              <div className="card-gradient rounded-3xl p-4 shadow-lg flex items-center gap-4">
-                <div className="w-12 h-12 rounded-lg bg-yellow-200 flex items-center justify-center text-2xl">👩‍👧</div>
-                <div>
-                  <div className="font-bold">Ibu Sinta</div>
-                  <div className="text-sm text-slate-600">"Anak saya jadi berani berekspresi. Gurunya sabar dan penuh kasih."</div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Right column - playful activity cards */}
-        <div data-aos="fade-up" data-aos-delay="200" className="relative z-10">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="rounded-3xl p-6 bg-gradient-to-br from-yellow-50 to-yellow-100 shadow-xl">
-              <div className="text-3xl">🎨</div>
-              <div className="mt-3 font-bold text-lg">Seni & Kriya</div>
-              <p className="mt-2 text-sm text-slate-600">Cat, kertas, dan kreativitas tanpa batas.</p>
-            </div>
-
-            <div className="rounded-3xl p-6 bg-gradient-to-br from-sky-50 to-blue-50 shadow-xl">
-              <div className="text-3xl">🎵</div>
-              <div className="mt-3 font-bold text-lg">Musik & Lagu</div>
-              <p className="mt-2 text-sm text-slate-600">Bernyanyi dan menari bersama teman-teman.</p>
-            </div>
-
-            <div className="rounded-3xl p-6 bg-gradient-to-br from-emerald-50 to-green-50 shadow-xl">
-              <div className="text-3xl">🤸</div>
-              <div className="mt-3 font-bold text-lg">Aktivitas & Motorik</div>
-              <p className="mt-2 text-sm text-slate-600">Permainan yang menstimulasi tubuh dan imajinasi.</p>
-            </div>
-
-            <div className="rounded-3xl p-6 bg-gradient-to-br from-pink-50 to-rose-50 shadow-xl">
-              <div className="text-3xl">📚</div>
-              <div className="mt-3 font-bold text-lg">Cerita & Bahasa</div>
-              <p className="mt-2 text-sm text-slate-600">Mendongeng dan membaca dengan penuh ekspresi.</p>
-            </div>
+        {/* Right column - Activity Cards */}
+        <div data-aos="fade-up" data-aos-delay="300" className="relative">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            {[
+              { 
+                icon: '🎨', 
+                title: 'Seni & Kriya', 
+                desc: 'Cat, kertas, dan kreativitas tanpa batas',
+                gradient: 'from-pink-100 to-rose-100',
+                shadow: 'hover:shadow-pink-200/50'
+              },
+              { 
+                icon: '🎵', 
+                title: 'Musik & Lagu', 
+                desc: 'Bernyanyi dan menari bersama teman',
+                gradient: 'from-cyan-100 to-blue-100',
+                shadow: 'hover:shadow-blue-200/50'
+              },
+              { 
+                icon: '🤸', 
+                title: 'Aktivitas Motorik', 
+                desc: 'Permainan yang menstimulasi tubuh',
+                gradient: 'from-emerald-100 to-green-100',
+                shadow: 'hover:shadow-green-200/50'
+              },
+              { 
+                icon: '📚', 
+                title: 'Cerita & Bahasa', 
+                desc: 'Mendongeng dengan penuh ekspresi',
+                gradient: 'from-purple-100 to-violet-100',
+                shadow: 'hover:shadow-purple-200/50'
+              }
+            ].map((card, i) => (
+              <div 
+                key={i}
+                className={`bg-white rounded-2xl p-6 shadow-md hover:shadow-xl ${card.shadow} transition-all duration-300 hover:scale-105`}
+                data-aos="zoom-in"
+                data-aos-delay={i * 100}
+              >
+                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${card.gradient} flex items-center justify-center text-3xl shadow-sm mb-4`}>
+                  {card.icon}
+                </div>
+                <h3 className="font-bold text-lg text-slate-800">{card.title}</h3>
+                <p className="mt-2 text-sm text-slate-600">{card.desc}</p>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes float {
+          0%, 100% { transform: translateY(0px) rotate(0deg); }
+          50% { transform: translateY(-20px) rotate(3deg); }
+        }
+        .animate-float {
+          animation: float 6s ease-in-out infinite;
+        }
+      `}</style>
     </section>
   );
 }
