@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'
 
 export default function Hero() {
   return (
@@ -37,7 +38,12 @@ export default function Hero() {
 
                 <div className="mt-6 flex items-center gap-3">
                   <a href="#program" className="btn-cta py-3 px-5 text-lg">Lihat Program</a>
-                  <a href="#kontak" className="btn-cta py-3 px-5 text-lg">Daftar Sekarang</a>
+                  <Link
+                    to="/daftar"
+                    className="inline-block px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold text-lg rounded-full shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300"
+                  >
+                    Daftar Sekarang
+                  </Link>
                 </div>
 
                 <div className="mt-6 grid grid-cols-3 gap-3">

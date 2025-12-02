@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@300;400;500;600;700&display=swap');
+
 :root{
   --kucica-yellow: #FFD23F;
   --kucica-yellow-2: #FFE680;
@@ -9,15 +11,28 @@
   --kucica-blue-2: #93C5FD;
   --kucica-blue-3: #2563EB;
   --text-dark: #08203a;
+
+  font-family: 'Fredoka', sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
 body{
-  font-family: 'Baloo 2', 'Quicksand', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', Arial;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
-  color:var(--text-dark);
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+
   background: radial-gradient(1200px 400px at 10% 10%, rgba(59,130,246,0.12), transparent),
               linear-gradient(180deg,var(--kucica-blue-2) 0%, #fff7e6 40%, var(--kucica-blue-2) 100%);
 }
