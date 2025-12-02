@@ -51,6 +51,53 @@ return (
 
             <button onClick={openMap} className="inline-flex items-center gap-3 rounded-2xl bg-kucica-yellow text-kucica-blue font-semibold px-5 py-3 shadow-sm hover:brightness-95">📍 Arahkan ke Peta</button>
             </div>
+            
+            {/* Registration form - sends to backend */}
+            <form id="registration-form" onSubmit={(e) => {
+                e.preventDefault();
+                const form = e.currentTarget;
+                const data = {
+                    parentName: form.parentName.value.trim(),
+                    childName: form.childName.value.trim(),
+                    phone: form.phone.value.trim(),
+                    program: form.program.value
+                };
+
+                // basic validation
+                if (!data.parentName || !data.childName || !data.phone) {
+                    alert('Mohon lengkapi semua kolom pendaftaran.');
+                    return;
+                }
+
+                fetch('http://localhost:4001/api/registrations', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }).then(async (res) => {
+                    if (!res.ok) throw new Error(await res.text());
+                    const json = await res.json();
+                    alert('Pendaftaran terkirim. ID: ' + json.id);
+                    form.reset();
+                }).catch((err) => {
+                    console.error(err);
+                    alert('Terjadi kesalahan saat mengirim pendaftaran.');
+                });
+            }} className="mt-6 p-4 rounded-xl bg-white/30 ring-1 ring-slate-200/30">
+                <h4 className="text-sm font-semibold text-slate-700">Form Pendaftaran</h4>
+                <div className="mt-3 grid sm:grid-cols-2 gap-3">
+                    <input name="parentName" placeholder="Nama Orang Tua" className="px-3 py-2 rounded-lg border border-slate-200" />
+                    <input name="childName" placeholder="Nama Anak" className="px-3 py-2 rounded-lg border border-slate-200" />
+                    <input name="phone" placeholder="Nomor Telepon" className="px-3 py-2 rounded-lg border border-slate-200" />
+                    <select name="program" defaultValue="paud" className="px-3 py-2 rounded-lg border border-slate-200">
+                        <option value="paud">PAUD</option>
+                        <option value="psikolog">Psikolog</option>
+                    </select>
+                </div>
+                <div className="mt-3 flex items-center gap-3">
+                    <button type="submit" className="btn-cta">Kirim Pendaftaran</button>
+                    <button type="reset" className="pill-nav">Kosongkan</button>
+                </div>
+            </form>
         </div>
 
           {/* Right: map */}
