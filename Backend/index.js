@@ -9,25 +9,43 @@ const PORT = process.env.PORT || 4001;
 app.use(cors());
 app.use(express.json());
 
+// simple request logger so we can see incoming requests and bodies
+app.use((req, res, next) => {
+  console.log(new Date().toISOString(), req.method, req.url, req.body && Object.keys(req.body).length ? req.body : '');
+  next();
+});
+
 const DB_PATH = path.join(__dirname, 'registrations.db');
 const db = new sqlite3.Database(DB_PATH, (err) => {
   if (err) {
     console.error('Failed to open DB', err);
     process.exit(1);
   }
-});
 
-db.serialize(() => {
-  db.run(`
-    CREATE TABLE IF NOT EXISTS registrations (
-      id INTEGER PRIMARY KEY AUTOINCREMENT,
-      parentName TEXT NOT NULL,
-      childName TEXT NOT NULL,
-      phone TEXT NOT NULL,
-      program TEXT NOT NULL,
-      createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
+  console.log('Opened DB at', DB_PATH);
+
+  db.serialize(() => {
+    db.run(`
+      CREATE TABLE IF NOT EXISTS registrations (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        parentName TEXT NOT NULL,
+        childName TEXT NOT NULL,
+        phone TEXT NOT NULL,
+        program TEXT NOT NULL,
+        createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `, (createErr) => {
+      if (createErr) {
+        console.error('Failed to create/verify registrations table', createErr.message);
+        process.exit(1);
+      }
+
+      // start server only after DB is ready
+      app.listen(PORT, () => {
+        console.log(`PAUD backend listening on http://localhost:${PORT}`);
+      });
+    });
+  });
 });
 
 app.get('/api/health', (req, res) => {
@@ -40,8 +58,8 @@ app.post('/api/registrations', (req, res) => {
     return res.status(400).send('Missing required fields');
   }
 
-  const allowed = ['paud', 'psikolog'];
-  if (!allowed.includes(program)) {
+  // Accept any program string from frontend (no whitelist), but ensure non-empty
+  if (typeof program !== 'string' || program.trim() === '') {
     return res.status(400).send('Invalid program');
   }
 
@@ -63,6 +81,4 @@ app.get('/api/registrations', (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`PAUD backend listening on http://localhost:${PORT}`);
-});
+// server is started inside the DB ready callback above; no top-level listen here

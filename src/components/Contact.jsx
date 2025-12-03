@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import logo from '../assets/Logopaudkucica.png';
 import { KUCICA_ADDRESS } from '../constants/config';
 import { openMap } from '../utils/helpers';
@@ -73,7 +73,10 @@ return (
             </div>
             
             {/* Registration form - sends to backend */}
-            <form id="registration-form" onSubmit={(e) => {
+            {
+              /* add async submit handler to POST to backend */
+            }
+            <form id="registration-form" onSubmit={async (e) => {
                 e.preventDefault();
                 const form = e.currentTarget;
                 const data = {
@@ -89,8 +92,24 @@ return (
                     return;
                 }
 
-                alert(`Terima kasih! Data pendaftaran:\nOrang Tua: ${data.parentName}\nAnak: ${data.childName}\nTelepon: ${data.phone}\nProgram: ${data.program}`);
-                form.reset();
+                try {
+                    const res = await fetch('http://localhost:4001/api/registrations', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data)
+                    });
+
+                    if (res.ok) {
+                        const json = await res.json();
+                        alert(`Pendaftaran berhasil (ID: ${json.id}). Terima kasih!`);
+                        form.reset();
+                    } else {
+                        const text = await res.text();
+                        alert('Server error: ' + (text || res.statusText));
+                    }
+                } catch (err) {
+                    alert('Network error: ' + err.message);
+                }
             }} className="mt-6 p-4 rounded-xl bg-white/30 ring-1 ring-slate-200/30">
                 <h4 className="text-sm font-semibold text-slate-700">Form Pendaftaran</h4>
                 <div className="mt-3 grid sm:grid-cols-2 gap-3">

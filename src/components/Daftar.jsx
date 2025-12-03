@@ -13,6 +13,8 @@ export default function Daftar() {
   });
 
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const programs = [
     { value: 'menggambar', label: '🎨 Menggambar & Melukis', color: 'from-pink-400 to-rose-400' },
@@ -29,26 +31,50 @@ export default function Daftar() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
-    console.log('Form submitted:', formData);
-    setIsSubmitted(true);
-    
-    // Reset form after 3 seconds
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({
-        namaAnak: '',
-        tanggalLahir: '',
-        namaOrangTua: '',
-        noTelepon: '',
-        email: '',
-        alamat: '',
-        program: '',
-        pesan: ''
+    setError(null);
+    setLoading(true);
+
+    // map frontend fields to backend expected fields
+    const payload = {
+      parentName: formData.namaOrangTua,
+      childName: formData.namaAnak,
+      phone: formData.noTelepon,
+      program: formData.program || 'menggambar'
+    };
+
+    try {
+      const res = await fetch('http://localhost:4001/api/registrations', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
       });
-    }, 3000);
+
+      if (res.ok) {
+        setIsSubmitted(true);
+        setTimeout(() => {
+          setIsSubmitted(false);
+          setFormData({
+            namaAnak: '',
+            tanggalLahir: '',
+            namaOrangTua: '',
+            noTelepon: '',
+            email: '',
+            alamat: '',
+            program: '',
+            pesan: ''
+          });
+        }, 3000);
+      } else {
+        const text = await res.text();
+        setError(text || 'Server returned an error');
+      }
+    } catch (err) {
+      setError(err.message || 'Network error');
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
